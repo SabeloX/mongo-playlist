@@ -6,9 +6,9 @@ mongoose.connect('mongodb://localhost/testroot')
 
 //check for connection ... only check once when opening
 mongoose.connection
-.once('open', () =>{
+.once('open',() =>{
     console.log("Connection Made")
 })
-.on(error =>{
-    console.log("Connection unsuccessful")
+.on('error', (error) =>{
+    console.log('Error')
 })
