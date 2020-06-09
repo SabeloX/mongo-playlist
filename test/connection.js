@@ -1,14 +1,29 @@
 // Import mongoose library
 const mongoose = require('mongoose')
 
-// Connect to the database
-mongoose.connect('mongodb://localhost/testroot')
+//ES6 Promise
+mongoose.Promise = global.Promise
 
-//check for connection ... only check once when opening
-mongoose.connection
-.once('open',() =>{
-    console.log("Connection Made")
+//Connect to the database before testing
+before(done =>{
+    // Connect to the database
+    mongoose.connect('mongodb://localhost/testroot')
+
+    //check for connection ... only check once when opening
+    mongoose.connection
+    .once('open',() =>{
+        console.log("Connection Made")
+        done()
+    })
+    .on('error', (error) =>{
+        console.log('Error')
+    })
 })
-.on('error', (error) =>{
-    console.log('Error')
+
+//Drop the collection before each test
+beforeEach((done) =>{
+
+    //drop collection
+    mongoose.connection.collections.users.drop()
+    done()
 })
