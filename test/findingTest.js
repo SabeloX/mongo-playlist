@@ -4,9 +4,11 @@ const User = require('../models/user-model')
 // Describes the tests
 describe('Testing The MongoDB', () =>{
     // Create Tests
-    
+
+    let user
+
     beforeEach(done =>{
-        const user = new User({
+        user = new User({
             name: "Sabelo",
             weight: 111
         })
@@ -24,5 +26,15 @@ describe('Testing The MongoDB', () =>{
             assert(result.name === "Sabelo")
             done()
         })
-    })  
+    })
+
+    //Check by ID if data is saved to the database
+    it('Finding data by ID from the db', (done) =>{
+        
+        User.findOne({_id: user._id})
+        .then(result =>{
+            assert(result._id.toString() === user._id.toString())
+            done()
+        })
+    })
 })
